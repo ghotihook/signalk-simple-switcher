@@ -3,6 +3,20 @@
 A minimal Signal K webapp that shows a row of tabs (top or bottom) for switching
 between other webapps or any web page. No build step, no dependencies, one HTML file.
 
+## Why
+
+On a boat you often want a screen, whether a helm tablet, phone or mast display, to
+flip between a few instrument pages with one tap. Existing app switchers use icon
+grids and docks, which look nice but add taps, screen clutter and weight. This does one thing:
+a plain row of labelled tabs.
+
+- **Simple**: a strip of tabs, nothing else on screen.
+- **Fast**: pages stay loaded in the background, so switching is instant.
+- **Works everywhere**: plain HTML and old-style JavaScript, so it runs on old
+  tablets and any modern browser.
+- **Pages, not just apps**: add the same webapp more than once (e.g. two
+  `signalk-bignumbers` tabs as two "pages"), or any other URL on your network.
+
 ## Setup
 
 1. Install from the Signal K App Store (or `npm install` into `~/.signalk`) and restart the server.
