@@ -56,10 +56,14 @@ reaches the server, whether by name or IP address.
 
 Open `http://<your-server>:3000/signalk-simple-switcher/` on the display.
 
+It works best full screen, with no browser address bar or toolbars taking space
+from your pages. On iOS or Android, open the address in the browser and choose
+**Add to Home Screen**. It then opens from its icon as a full-screen app. On a
+desktop or mast display, use the browser's full-screen or kiosk mode.
+
 - Each device remembers the last tab it showed.
 - Add `#1`, `#2`, … to the address to open a particular tab. This gives each
   display its own start page.
-- On a phone or tablet, **Add to Home Screen** runs it full screen.
 - Reload the page after you change the config.
 
 ## Good to know
