@@ -2,6 +2,7 @@
 
 ## 0.1.2
 
+- Show as "gh - Simple Switcher" in the plugin list.
 - Real screenshots (chart, racing page and plugin config) for the App Store and
   README, replacing the mock one.
 - Rewrite the README around why the plugin is useful and how to set it up.

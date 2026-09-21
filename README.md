@@ -33,7 +33,7 @@ Install **Simple Switcher** from the Signal K App Store, or run
 
 ## Configure
 
-Open **Server → Plugin Config → Simple Switcher** and enable the plugin.
+Open **Server → Plugin Config → gh - Simple Switcher** and enable the plugin.
 
 - **Tab bar position**: bottom (default) or top.
 - **Keep pages loaded**: on (default) for instant switching. Turn it off on old

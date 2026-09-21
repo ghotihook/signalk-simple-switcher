@@ -26,7 +26,7 @@ function scanNodeModules (dir) {
 module.exports = function (app) {
   const plugin = {
     id: 'signalk-simple-switcher',
-    name: 'Simple Switcher',
+    name: 'gh - Simple Switcher',
     description: 'Tab bar for switching between webapps and web pages'
   }
 
