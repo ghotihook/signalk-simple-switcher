@@ -27,3 +27,7 @@ between other webapps or any web page. No build step, no dependencies, one HTML 
 - Two tabs of the same webapp share its browser storage (same origin), so apps that
   keep their layout in `localStorage` will show the same layout in both unless the
   app supports a per-URL setting.
+
+## License
+
+Apache-2.0
