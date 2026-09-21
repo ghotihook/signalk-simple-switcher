@@ -1,11 +1,16 @@
 {
   "name": "signalk-simple-switcher",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Minimal tab bar (top or bottom) for quickly switching between Signal K webapps and web pages. The same webapp can be added as several tabs.",
   "main": "index.js",
+  "scripts": {
+    "test": "node --test test/plugin.test.js"
+  },
   "files": [
     "index.js",
-    "public/"
+    "public/",
+    "test/",
+    "CHANGELOG.md"
   ],
   "keywords": [
     "signalk-node-server-plugin",
@@ -18,7 +23,10 @@
   ],
   "signalk": {
     "displayName": "Simple Switcher",
-    "appIcon": "./icon.svg"
+    "appIcon": "./icon.svg",
+    "screenshots": [
+      "./screenshot.png"
+    ]
   },
   "author": "ghotihook",
   "license": "Apache-2.0",

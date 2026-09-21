@@ -3,6 +3,8 @@
 A minimal Signal K webapp that shows a row of tabs (top or bottom) for switching
 between other webapps or any web page. No build step, no dependencies, one HTML file.
 
+![Simple Switcher with four tabs along the bottom](public/screenshot.png)
+
 ## Why
 
 On a boat you often want a screen, whether a helm tablet, phone or mast display, to

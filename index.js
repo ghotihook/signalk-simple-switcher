@@ -1,4 +1,27 @@
+const fs = require('fs')
+const path = require('path')
+
 const CUSTOM = 'Custom URL'
+const WEBAPP_KEYWORDS = ['signalk-webapp', 'signalk-embeddable-webapp']
+
+// Webapp package names in a node_modules dir, including @scoped ones
+function scanNodeModules (dir) {
+  let entries
+  try {
+    entries = fs.readdirSync(dir)
+  } catch (e) {
+    return []
+  }
+  return entries.reduce((names, entry) => {
+    if (entry.startsWith('.')) return names
+    if (entry.startsWith('@')) return names.concat(scanNodeModules(path.join(dir, entry)))
+    try {
+      const pkg = JSON.parse(fs.readFileSync(path.join(dir, entry, 'package.json'), 'utf8'))
+      if ((pkg.keywords || []).some((k) => WEBAPP_KEYWORDS.includes(k))) names.push(pkg.name)
+    } catch (e) {}
+    return names
+  }, [])
+}
 
 module.exports = function (app) {
   const plugin = {
@@ -7,11 +30,19 @@ module.exports = function (app) {
     description: 'Tab bar for switching between webapps and web pages'
   }
 
-  // Installed webapps, used to populate the dropdown in the plugin config
+  // Installed webapps, used to populate the dropdown in the plugin config.
+  // The server hands plugins a shallow copy of app before webapps are loaded,
+  // so app.webapps is normally empty here; scan node_modules the way the
+  // server does (config dir, then app dir).
   function webappNames () {
-    const all = [].concat(app.webapps || [], app.embeddablewebapps || [])
-    const names = all
+    const config = app.config || {}
+    const dirs = [config.configPath, config.appPath]
+      .filter(Boolean)
+      .map((p) => path.join(p, 'node_modules'))
+    const scanned = [].concat.apply([], Array.from(new Set(dirs)).map(scanNodeModules))
+    const known = [].concat(app.webapps || [], app.embeddablewebapps || [])
       .map((w) => w && w.name)
+    const names = scanned.concat(known)
       .filter((n) => n && n !== plugin.id)
     return Array.from(new Set(names)).sort()
   }
