@@ -6,7 +6,7 @@
   Installed webapps are now found by scanning `node_modules`, since the server
   gives plugins their `app` before it has loaded webapps.
 - Add tests (`npm test`, Node's built-in test runner, no dependencies).
-- Add App Store screenshot and this changelog.
+- Add App Store screenshots and this changelog; rewrite the README.
 
 ## 0.1.0
 

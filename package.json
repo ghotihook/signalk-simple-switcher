@@ -25,7 +25,9 @@
     "displayName": "Simple Switcher",
     "appIcon": "./icon.svg",
     "screenshots": [
-      "./screenshot.png"
+      "./screenshot-chart.jpg",
+      "./screenshot-racing.png",
+      "./screenshot-config.png"
     ]
   },
   "author": "ghotihook",
