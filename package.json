@@ -1,0 +1,19 @@
+{
+  "name": "signalk-simple-switcher",
+  "version": "0.1.0",
+  "description": "Minimal tab bar for quickly switching between Signal K webapps and web pages",
+  "main": "index.js",
+  "keywords": [
+    "signalk-node-server-plugin",
+    "signalk-webapp",
+    "signalk-category-utility"
+  ],
+  "signalk": {
+    "displayName": "Simple Switcher"
+  },
+  "files": [
+    "index.js",
+    "public"
+  ],
+  "license": "MIT"
+}

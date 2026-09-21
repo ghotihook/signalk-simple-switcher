@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Simple Switcher</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #000; color: #ddd;
+    font-family: -apple-system, system-ui, "Segoe UI", Roboto, sans-serif; overflow: hidden; }
+  #root { display: flex; flex-direction: column; height: 100%; }
+  #root.top { flex-direction: column-reverse; }
+  #pages { flex: 1; position: relative; }
+  #pages iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    border: 0; background: #fff; visibility: hidden; }
+  #pages iframe.on { visibility: visible; }
+  #bar { display: flex; background: #111; padding-bottom: env(safe-area-inset-bottom); }
+  #root.top #bar { padding-bottom: 0; padding-top: env(safe-area-inset-top); }
+  #bar button { flex: 1; min-width: 0; height: 44px; margin: 0; padding: 0 6px;
+    border: 0; border-top: 3px solid transparent; background: none; color: #aaa;
+    font: inherit; font-size: 15px; white-space: nowrap; overflow: hidden;
+    text-overflow: ellipsis; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  #root.top #bar button { border-top: 0; border-bottom: 3px solid transparent; }
+  #bar button.on { color: #fff; border-color: #2a8cff; background: #1c1c1c; }
+  #msg { padding: 24px; line-height: 1.5; }
+  #msg a { color: #2a8cff; }
+</style>
+</head>
+<body>
+<div id="root">
+  <div id="pages"></div>
+  <div id="bar"></div>
+</div>
+<script>
+(function () {
+  var root = document.getElementById('root')
+  var pages = document.getElementById('pages')
+  var bar = document.getElementById('bar')
+  var tabs = [], frames = [], buttons = [], current = -1, keepLoaded = true
+
+  function message (html) {
+    pages.innerHTML = '<div id="msg">' + html + '</div>'
+  }
+
+  function show (i) {
+    if (i < 0 || i >= tabs.length) i = 0
+    if (i === current) return
+    if (current >= 0) {
+      buttons[current].className = ''
+      frames[current].className = ''
+      if (!keepLoaded) frames[current].src = 'about:blank'
+    }
+    var f = frames[i]
+    if (!keepLoaded || !f.getAttribute('data-loaded')) {
+      f.src = tabs[i].url
+      f.setAttribute('data-loaded', '1')
+    }
+    f.className = 'on'
+    buttons[i].className = 'on'
+    current = i
+    try { localStorage.setItem('simpleSwitcherTab', String(i)) } catch (e) {}
+    if (location.hash !== '#' + (i + 1)) history.replaceState(null, '', '#' + (i + 1))
+  }
+
+  function build (cfg) {
+    tabs = cfg.tabs || []
+    keepLoaded = cfg.keepLoaded !== false
+    if (cfg.position === 'top') root.className = 'top'
+    if (!tabs.length) {
+      message('No tabs configured. Add some in the <a href="/admin/#/serverConfiguration/plugins/signalk-simple-switcher" target="_top">plugin config</a>.')
+      return
+    }
+    tabs.forEach(function (t, i) {
+      var f = document.createElement('iframe')
+      f.setAttribute('allow', 'fullscreen; geolocation')
+      pages.appendChild(f)
+      frames.push(f)
+      var b = document.createElement('button')
+      b.textContent = t.label
+      b.onclick = function () { show(i) }
+      bar.appendChild(b)
+      buttons.push(b)
+    })
+    var start = parseInt(location.hash.slice(1), 10) - 1
+    if (isNaN(start)) {
+      try { start = parseInt(localStorage.getItem('simpleSwitcherTab'), 10) } catch (e) {}
+    }
+    show(isNaN(start) ? 0 : start)
+  }
+
+  window.addEventListener('hashchange', function () {
+    var i = parseInt(location.hash.slice(1), 10) - 1
+    if (!isNaN(i)) show(i)
+  })
+
+  var xhr = new XMLHttpRequest()
+  xhr.open('GET', '/plugins/signalk-simple-switcher/tabs')
+  xhr.onload = function () {
+    if (xhr.status === 200) {
+      try { return build(JSON.parse(xhr.responseText)) } catch (e) {}
+    }
+    message(xhr.status === 401 || xhr.status === 403
+      ? 'Not authorised. <a href="/admin/#/login" target="_top">Log in</a> and reload.'
+      : 'Could not load tab configuration (HTTP ' + xhr.status + ').')
+  }
+  xhr.onerror = function () { message('Could not reach the Signal K server.') }
+  xhr.send()
+})()
+</script>
+</body>
+</html>
