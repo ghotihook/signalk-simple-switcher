@@ -1,8 +1,12 @@
 # Changelog
 
-## 0.1.2
+## Unreleased
 
 - Show as "gh - Simple Switcher" in the plugin list.
+- README notes that the switcher works best full screen.
+
+## 0.1.2
+
 - Real screenshots (chart, racing page and plugin config) for the App Store and
   README, replacing the mock one.
 - Rewrite the README around why the plugin is useful and how to set it up.
